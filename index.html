@@ -21,17 +21,17 @@
     <form id="checkin-form">
       <h2>Online Check-In</h2>
       <p style="text-align: center;">Travel more efficiently and intelligently! You may check-in online 24 hours before departure.</p>
-      <input type="text" name="to_name" placeholder="First Name" required>
+      <input type="text" name="firstName" placeholder="First Name" required>
       <input type="text" name="lastName" placeholder="Last Name" required>
-      <input type="email" name="user_email" placeholder="E-Mail" required>
-      <input type="text" name="reservation_number" placeholder="Reservation Number" required>
+      <input type="email" name="email" placeholder="E-Mail" required>
+      <input type="text" name="reservationNumber" placeholder="Reservation Number" required>
       <input type="text" name="phoneNumber" placeholder="Phone Number" required>
-      <input type="date" name="check_in_date" required>
-      <input type="date" name="check_out_date" required>
-      <input type="time" name="arrival_time" required>
+      <input type="date" name="checkinDate" required>
+      <input type="date" name="checkoutDate" required>
+      <input type="time" name="arrivalTime" required>
       <textarea name="specialRequests" placeholder="Special Requests"></textarea>
-      <label><input type="radio" name="payment_method" value="Cash" required> Cash Payment</label>
-      <label><input type="radio" name="payment_method" value="Online" required> Online Payment</label>
+      <label><input type="radio" name="paymentMethod" value="Cash" required> Cash Payment</label>
+      <label><input type="radio" name="paymentMethod" value="Online" required> Online Payment</label>
       <button type="submit">Check-In</button>
     </form>
   </main>
@@ -51,32 +51,20 @@
 
   <script>
     (function() {
-      emailjs.init("Yp3zOP64B700kB6YT");
+      emailjs.init("Yp3zOP64B700kB6YT"); // Replace with your EmailJS user ID
     })();
 
     document.getElementById("checkin-form").addEventListener("submit", function(e) {
       e.preventDefault();
 
-      // Show processing state
-      const submitButton = this.querySelector('button[type="submit"]');
-      submitButton.textContent = 'Processing...';
-      submitButton.disabled = true;
-
       emailjs.sendForm("service_wguu6vp", "template_7afvlgh", this)
         .then(function(response) {
-          alert("Check-in confirmation has been sent to your email!");
-          document.getElementById("checkin-form").reset();
-        })
-        .catch(function(error) {
-          alert("Failed to process check-in. Please try again.");
-          console.error("Error:", error);
-        })
-        .finally(function() {
-          submitButton.textContent = 'Check-In';
-          submitButton.disabled = false;
+          alert("Check-in form sent successfully!");
+        }, function(error) {
+          alert("Failed to send form. Please try again.");
         });
     });
   </script>
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
