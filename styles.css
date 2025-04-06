@@ -136,3 +136,34 @@ footer {
         font-size: 2em;
     }
 }
+
+.error-message {
+    display: none;
+    background-color: #ff5252;
+    color: white;
+    padding: 10px;
+    margin: 10px auto;
+    max-width: 600px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.error-message.show {
+    display: block;
+}
+
+.form-group.error input,
+.form-group.error textarea {
+    border-color: #ff5252;
+}
+
+.form-group .error-text {
+    color: #ff5252;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+.form-group.error .error-text {
+    display: block;
+}

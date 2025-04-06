@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Validate dates
-        const checkIn = new Date(document.getElementById('checkInDate').value);
-        const checkOut = new Date(document.getElementById('checkOutDate').value);
+        const checkIn = new Date(document.getElementById('date').value);
+        const checkOut = new Date(document.getElementById('date').value);
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 to_email: document.getElementById('email').value,
                 reservation_number: document.getElementById('reservationNumber').value,
                 phone_number: document.getElementById('phoneNumber').value,
-                check_in_date: document.getElementById('checkInDate').value,
-                check_out_date: document.getElementById('checkOutDate').value,
+                check_in_date: document.getElementById('date').value,
+                check_out_date: document.getElementById('date').value,
                 arrival_time: document.getElementById('arrivalTime').value,
                 special_requests: document.getElementById('specialRequests').value || 'None',
                 payment_method: paymentMethod.value
