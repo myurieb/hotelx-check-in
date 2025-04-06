@@ -32,6 +32,19 @@
       <textarea name="specialRequests" placeholder="Special Requests"></textarea>
       <label><input type="radio" name="paymentMethod" value="Cash" required> Cash Payment</label>
       <label><input type="radio" name="paymentMethod" value="Online" required> Online Payment</label>
+      
+      <div class="payment-proof">
+        <h3>Payment Verification</h3>
+        <div class="upload-field">
+          <label for="paymentScreenshot">Upload Payment Screenshot:</label>
+          <input type="file" 
+                 id="paymentScreenshot" 
+                 name="paymentScreenshot" 
+                 accept=".jpg,.jpeg,.png,.pdf">
+          <p class="upload-note">Accepted formats: JPG, PNG, PDF (Max size: 2MB)</p>
+        </div>
+      </div>
+
       <button type="submit">Check-In</button>
     </form>
   </main>
@@ -51,18 +64,50 @@
 
   <script>
     (function() {
-      emailjs.init("Yp3zOP64B700kB6YT"); // Replace with your EmailJS user ID
+      emailjs.init("Yp3zOP64B700kB6YT");
     })();
 
-    document.getElementById("checkin-form").addEventListener("submit", function(e) {
+    document.getElementById("checkin-form").addEventListener("submit", async function(e) {
       e.preventDefault();
 
-      emailjs.sendForm("service_wguu6vp", "template_7afvlgh", this)
-        .then(function(response) {
-          alert("Check-in form sent successfully!");
-        }, function(error) {
-          alert("Failed to send form. Please try again.");
-        });
+      const paymentFile = document.getElementById('paymentScreenshot').files[0];
+      
+      try {
+        // Validate file presence
+        if (!paymentFile) {
+          alert("Please upload a payment screenshot");
+          return;
+        }
+
+        // Validate file size (reduced to 2MB)
+        if (paymentFile.size > 2 * 1024 * 1024) {
+          alert("File size too large! Please upload a file smaller than 2MB");
+          return;
+        }
+
+        // Validate file type
+        const validTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+        if (!validTypes.includes(paymentFile.type)) {
+          alert("Please upload only JPG, PNG, or PDF files");
+          return;
+        }
+
+        try {
+          const response = await emailjs.sendForm("service_wguu6vp", "template_7afvlgh", this);
+          alert("Check-in form and payment proof sent successfully!");
+          document.getElementById("checkin-form").reset();
+        } catch (error) {
+          console.error("EmailJS Error:", error);
+          if (error.status === 413) {
+            alert("File is too large for our email service. Please try a smaller file.");
+          } else {
+            alert("Failed to send form. Please try again later.");
+          }
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An unexpected error occurred. Please try again.");
+      }
     });
   </script>
     <script src="script.js"></script>
