@@ -36,12 +36,13 @@
       <div class="payment-proof">
         <h3>Payment Verification</h3>
         <div class="upload-field">
-          <label for="paymentScreenshot">Upload Payment Screenshot:</label>
+          <label for="paymentScreenshot">Upload Payment Screenshot (Optional):</label>
           <input type="file" 
                  id="paymentScreenshot" 
                  name="paymentScreenshot" 
                  accept=".jpg,.jpeg,.png,.pdf">
-          <p class="upload-note">Accepted formats: JPG, PNG, PDF (Max size: 2MB)</p>
+          <p class="upload-note">Accepted formats: JPG, PNG, PDF (Max size: 10MB)</p>
+          <p class="optional-note">*You can also present your payment proof during check-in</p>
         </div>
       </div>
 
@@ -73,28 +74,25 @@
       const paymentFile = document.getElementById('paymentScreenshot').files[0];
       
       try {
-        // Validate file presence
-        if (!paymentFile) {
-          alert("Please upload a payment screenshot");
-          return;
-        }
+        // Only validate if a file was uploaded
+        if (paymentFile) {
+          // Validate file size
+          if (paymentFile.size > 10 * 1024 * 1024) {
+            alert("File size too large! Please upload a file smaller than 10MB");
+            return;
+          }
 
-        // Validate file size (reduced to 2MB)
-        if (paymentFile.size > 2 * 1024 * 1024) {
-          alert("File size too large! Please upload a file smaller than 2MB");
-          return;
-        }
-
-        // Validate file type
-        const validTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-        if (!validTypes.includes(paymentFile.type)) {
-          alert("Please upload only JPG, PNG, or PDF files");
-          return;
+          // Validate file type
+          const validTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+          if (!validTypes.includes(paymentFile.type)) {
+            alert("Please upload only JPG, PNG, or PDF files");
+            return;
+          }
         }
 
         try {
           const response = await emailjs.sendForm("service_wguu6vp", "template_7afvlgh", this);
-          alert("Check-in form and payment proof sent successfully!");
+          alert("Check-in form sent successfully!");
           document.getElementById("checkin-form").reset();
         } catch (error) {
           console.error("EmailJS Error:", error);
