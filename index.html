@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WELCOME TO HOTEL X</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>WELCOME TO HOTEL X</h1>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <form id="checkin-form">
+      <h2>Online Check-In</h2>
+      <p style="text-align: center;">Travel more efficiently and intelligently! You may check-in online 24 hours before departure.</p>
+      <input type="text" name="firstName" placeholder="First Name" required>
+      <input type="text" name="lastName" placeholder="Last Name" required>
+      <input type="email" name="email" placeholder="E-Mail" required>
+      <input type="text" name="reservationNumber" placeholder="Reservation Number" required>
+      <input type="text" name="phoneNumber" placeholder="Phone Number" required>
+      <input type="date" name="checkinDate" required>
+      <input type="date" name="checkoutDate" required>
+      <input type="time" name="arrivalTime" required>
+      <textarea name="specialRequests" placeholder="Special Requests"></textarea>
+      <label><input type="radio" name="paymentMethod" value="Cash" required> Cash Payment</label>
+      <label><input type="radio" name="paymentMethod" value="Online" required> Online Payment</label>
+      
+      <div class="payment-proof">
+          <h3>Payment Verification</h3>
+          <div class="upload-field">
+            <label for="paymentScreenshot">Upload Payment Screenshot (Optional):</label>
+            <input type="file" 
+                   id="paymentScreenshot" 
+                   name="paymentScreenshot" 
+                   accept=".jpg,.jpeg,.png,.pdf">
+            <p class="upload-note">Accepted formats: JPG, PNG, PDF (Max size: 10MB)</p>
+            <p class="optional-note">*You can also present your payment proof during check-in</p>
+          </div>
+        </div>
+
+      <button type="submit">Check-In</button>
+    </form>
+  </main>
+
+  <section id="about" class="about">
+    <h3>About Our Hotel</h3>
+    <p>Welcome to Hotel X, where luxury meets comfort in the heart of Sta. Rosa, Laguna.</p>
+    <p>Whether you're traveling for business or leisure, our hotel offers an unparalleled experience with world-class hospitality, elegant accommodations, and exceptional service.</p>
+    <p>At Hotel X, we take pride in creating a home away from home for our guests. Our beautifully designed rooms and suites provide the perfect blend of modern amenities and timeless charm, ensuring a relaxing and memorable stay.</p>
+    <p>Indulge in exquisite dining at our on-site restaurant, unwind at our rooftop bar, or rejuvenate at our spa and wellness center.</p>
+    <p>Experience the warmth of hospitality at Sta. Rosa, Laguna — where every day is a story worth telling.</p>
+  </section>
+
+  <footer>
+    &copy; 2024 Hotel X. All rights reserved.
+  </footer>
+
+  <script>
+    (function() {
+      emailjs.init("Yp3zOP64B700kB6YT");
+    })();
+
+    document.getElementById("checkin-form").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const paymentFile = document.getElementById('paymentScreenshot').files[0];
+      
+      try {
+        // Only validate if a file was uploaded
+        if (paymentFile) {
+          // Validate file size
+          if (paymentFile.size > 10 * 1024 * 1024) {
+            alert("File size too large! Please upload a file smaller than 10MB");
+            return;
+          }
+
+          // Validate file type
+          const validTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+          if (!validTypes.includes(paymentFile.type)) {
+            alert("Please upload only JPG, PNG, or PDF files");
+            return;
+          }
+        }
+
+        try {
+          const response = await emailjs.sendForm("service_wguu6vp", "template_7afvlgh", this);
+          alert("Check-in form sent successfully!");
+          document.getElementById("checkin-form").reset();
+        } catch (error) {
+          console.error("EmailJS Error:", error);
+          if (error.status === 413) {
+            alert("File is too large for our email service. Please try a smaller file.");
+          } else {
+            alert("Failed to send form. Please try again later.");
+          }
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An unexpected error occurred. Please try again.");
+      }
+    });
+  </script>
+    <script src="script.js"></script>
+  </body>
+</html>
