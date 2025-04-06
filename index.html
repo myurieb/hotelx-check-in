@@ -5,110 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WELCOME TO HOTEL X</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
     <header>
-        <h1>WELCOME TO HOTEL X</h1>
         <nav>
-            <a href="#home" class="active">Home</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact Us</a>
-        </nav>
-    </header>
+            <h1>WELCOME TO HOTEL X</h1>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
 
-    <main>
-        <!-- Add error message container -->
-        <div id="errorMessage" class="error-message"></div>
-        
-        <section id="check-in" class="section">
-            <div class="form-container">
-                <h2>Online Check-In</h2>
-                <p class="form-description">Travel more efficiently and intelligently! You may check-in online 24 hours before to departure.</p>
-                
-                <form id="checkInForm">
-                    <div class="form-group">
-                        <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" name="firstName" required>
-                    </div>
+  <main>
+    <form id="checkin-form">
+      <h2>Online Check-In</h2>
+      <p style="text-align: center;">Travel more efficiently and intelligently! You may check-in online 24 hours before departure.</p>
+      <input type="text" name="to_name" placeholder="First Name" required>
+      <input type="text" name="lastName" placeholder="Last Name" required>
+      <input type="email" name="user_email" placeholder="E-Mail" required>
+      <input type="text" name="reservation_number" placeholder="Reservation Number" required>
+      <input type="text" name="phoneNumber" placeholder="Phone Number" required>
+      <input type="date" name="check_in_date" required>
+      <input type="date" name="check_out_date" required>
+      <input type="time" name="arrival_time" required>
+      <textarea name="specialRequests" placeholder="Special Requests"></textarea>
+      <label><input type="radio" name="payment_method" value="Cash" required> Cash Payment</label>
+      <label><input type="radio" name="payment_method" value="Online" required> Online Payment</label>
+      <button type="submit">Check-In</button>
+    </form>
+  </main>
 
-                    <div class="form-group">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" id="lastName" name="lastName" required>
-                    </div>
+  <section id="about" class="about">
+    <h3>About Our Hotel</h3>
+    <p>Welcome to Hotel X, where luxury meets comfort in the heart of Sta. Rosa, Laguna.</p>
+    <p>Whether you're traveling for business or leisure, our hotel offers an unparalleled experience with world-class hospitality, elegant accommodations, and exceptional service.</p>
+    <p>At Hotel X, we take pride in creating a home away from home for our guests. Our beautifully designed rooms and suites provide the perfect blend of modern amenities and timeless charm, ensuring a relaxing and memorable stay.</p>
+    <p>Indulge in exquisite dining at our on-site restaurant, unwind at our rooftop bar, or rejuvenate at our spa and wellness center.</p>
+    <p>Experience the warmth of hospitality at Sta. Rosa, Laguna — where every day is a story worth telling.</p>
+  </section>
 
-                    <div class="form-group">
-                        <label for="email">E-Mail</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
+  <footer>
+    &copy; 2024 Hotel X. All rights reserved.
+  </footer>
 
-                    <div class="form-group">
-                        <label for="reservationNumber">Reservation Number</label>
-                        <input type="text" id="reservationNumber" name="reservationNumber" required>
-                    </div>
+  <script>
+    (function() {
+      emailjs.init("Yp3zOP64B700kB6YT");
+    })();
 
-                    <div class="form-group">
-                        <label for="phoneNumber">Phone Number</label>
-                        <input type="tel" id="phoneNumber" name="phoneNumber" required>
-                    </div>
+    document.getElementById("checkin-form").addEventListener("submit", function(e) {
+      e.preventDefault();
 
-                    <div class="form-group">
-                        <label for="checkInDate">Check-In Date</label>
-                        <input type="date" id="checkInDate" name="checkInDate" required>
-                    </div>
+      // Show processing state
+      const submitButton = this.querySelector('button[type="submit"]');
+      submitButton.textContent = 'Processing...';
+      submitButton.disabled = true;
 
-                    <div class="form-group">
-                        <label for="checkOutDate">Check-Out Date</label>
-                        <input type="date" id="checkOutDate" name="checkOutDate" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="arrivalTime">Arrival Time</label>
-                        <input type="time" id="arrivalTime" name="arrivalTime" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="specialRequests">Special Requests</label>
-                        <textarea id="specialRequests" name="specialRequests" rows="3"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Select Payment Method</label>
-                        <div class="payment-options">
-                            <label>
-                                <input type="radio" name="payment" value="cash"> Cash Payment
-                            </label>
-                            <label>
-                                <input type="radio" name="payment" value="online"> Online Payment
-                            </label>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="submit-btn">PROCEED WITH CHECK-IN</button>
-                </form>
-            </div>
-        </section>
-
-        <section id="about" class="section">
-            <div class="about-container">
-                <h2>About Our Hotel</h2>
-                <div class="about-content">
-                    <p>Welcome to Hotel X, where luxury meets comfort in the heart of Sta. Rosa, Laguna.</p>
-                    <p>Whether you're traveling for business or leisure, our hotel offers an unparalleled experience with world-class hospitality, elegant accommodations, and exceptional service.</p>
-                    <p>At Hotel X, we take pride in creating a home away from home for our guests.</p>
-                    <p>Our beautifully designed rooms and suites provide the perfect blend of modern amenities and timeless charm, ensuring a relaxing and memorable stay.</p>
-                    <p>Indulge in exquisite dining at our on-site restaurant, unwind at our rooftop bar, or rejuvenate at our spa and wellness center.</p>
-                    <p>With a commitment to excellence, our dedicated team is here to cater to your every need, making your stay truly extraordinary.</p>
-                    <p>Experience the warmth of hospitality at Sta. Rosa, Laguna —where every day is a story worth telling.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Hotel X. All rights reserved.</p>
-    </footer>
-
-    <script src="script.js"></script>
+      emailjs.sendForm("service_wguu6vp", "template_7afvlgh", this)
+        .then(function(response) {
+          alert("Check-in confirmation has been sent to your email!");
+          document.getElementById("checkin-form").reset();
+        })
+        .catch(function(error) {
+          alert("Failed to process check-in. Please try again.");
+          console.error("Error:", error);
+        })
+        .finally(function() {
+          submitButton.textContent = 'Check-In';
+          submitButton.disabled = false;
+        });
+    });
+  </script>
+  <script src="script.js"></script>
 </body>
 </html>
